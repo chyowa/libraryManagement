@@ -28,4 +28,13 @@ public class Books {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    @Override
+    public String toString() {
+        return "Books{" +
+                "bookId=" + bookId +
+                ", bookName='" + bookName + '\'' +
+                ", author='" + author + '\'' +
+                '}';
+    }
 }

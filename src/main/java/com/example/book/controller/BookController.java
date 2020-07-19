@@ -4,6 +4,8 @@ import com.example.book.pojo.Books;
 import com.example.book.service.BooksService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,7 @@ import java.util.List;
 @Api(tags = "图书相关接口", description = "提供图书相关的 Rest API")
 @Controller
 public class BookController {
-
+    private static Logger logger = LoggerFactory.getLogger(BookController.class);
     @Autowired
     private BooksService booksService;
 
@@ -25,9 +27,11 @@ public class BookController {
         try{
 
             List<Books> list = this.booksService.getBooks();
+            logger.info("getBooks list:"+list);
             model.addAttribute("list",list);
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("getBooks error:"+e.getMessage());
             return "error";
         }
         return "showBooks";
@@ -39,9 +43,11 @@ public class BookController {
     public String preUpdateBook(@PathVariable("bookId") int bookId,Model model){
         try{
             Books book = this.booksService.preUpdateBook(bookId);
+            logger.info("preUpdateBook book:"+book);
             model.addAttribute("book",book);
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("preUpdateBook error:"+e.getMessage());
             return "error";
         }
         return "updateBook";
@@ -54,6 +60,7 @@ public class BookController {
             this.booksService.updateBook(book);
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("updateBook error:"+e.getMessage());
             return "error";
         }
         return "ok";
@@ -73,6 +80,7 @@ public class BookController {
             this.booksService.addBook(book);
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("addBook error:"+e.getMessage());
             return "error";
         }
         return "ok";
@@ -86,6 +94,7 @@ public class BookController {
             this.booksService.deleteBook(bookId);
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("deleteBook error:"+e.getMessage());
             return "error";
         }
         return "ok";
